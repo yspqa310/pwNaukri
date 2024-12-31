@@ -8,7 +8,7 @@ import com.microsoft.playwright.Playwright;
 import java.util.Collections;
 import java.util.List;
 
-public class selectingOnVisibility {
+public class  selectingOnVisibility {
     public static void main(String[] args) {
         Playwright pw = Playwright.create();
         Browser browser = pw.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setChannel("chrome"));
