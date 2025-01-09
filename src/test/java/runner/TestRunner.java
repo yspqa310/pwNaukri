@@ -1,15 +1,18 @@
 package runner;
-import io.cucumber.junit.Cucumber;
-import io.cucumber.junit.CucumberOptions;
-import org.junit.runner.RunWith;
+
+import io.cucumber.testng.AbstractTestNGCucumberTests;
+import io.cucumber.testng.CucumberOptions;
 
 
-@RunWith(Cucumber.class)
 @CucumberOptions(
         features = "./src/test/java/features"
-        ,glue={"StepDefinition"},
-        tags = "@tag"
+        , glue = {"StepDefinition"},
+        tags = "@tag",
+        plugin = {"pretty", "html:target/cucumber-reports/index.html",
+                "json:target/cucumber-reports/CucumberTestReport.json",
+                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
+        }
 )
-public class TestRunner {
+public class TestRunner extends AbstractTestNGCucumberTests {
 
 }

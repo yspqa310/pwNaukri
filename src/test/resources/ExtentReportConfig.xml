@@ -5,8 +5,8 @@
 <!--        <theme>dark</theme>-->
         <encoding>UTF-8</encoding>
         <protocol>https</protocol>
-        <documentTitle>BDDFramework_Pasha</documentTitle>
-        <reportName>Sample</reportName>
+        <documentTitle>PlayWrightAutomation</documentTitle>
+        <reportName>pwSampleExtent</reportName>
         <dateFormat>yyyy-MM-dd</dateFormat>
         <timeFormat>HH:mm:ss</timeFormat>
         <scripts>

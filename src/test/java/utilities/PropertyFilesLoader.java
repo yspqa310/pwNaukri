@@ -2,6 +2,7 @@ package utilities;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -12,7 +13,8 @@ public class PropertyFilesLoader {
 
     /**
      * This method will get the key value from properties  file
-     *  It will get the data from project level we need to pass specific folder path
+     * It will get the data from project level we need to pass specific folder path
+     *
      * @param key
      * @param folderLocation
      * @return driver instance
@@ -41,6 +43,7 @@ public class PropertyFilesLoader {
     /**
      * This method will get the key value from properties  file
      * it will get the data from single folder, because file path hot coded
+     *
      * @param key
      * @return String
      * @throws IOException
@@ -65,8 +68,46 @@ public class PropertyFilesLoader {
         return prop.getProperty(key);
     }
 
+    public void setProperty(String key, String Value) throws IOException {
+        Properties prop = new Properties();
+        String path = System.getProperty("user.dir") + "/src/test/resources/testDataFiles";
+        File baseFileLocation = new File(path);
+
+        for (File file : baseFileLocation.listFiles()) {
+            if (file.getName().endsWith(".properties")) {
+                try {
+                    FileOutputStream outputFile = new FileOutputStream(file);
+                    prop.store(outputFile,"File Updated");
+                    prop.setProperty(key, Value);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.err.println("Error : " + e);
+                }
+            }
+        }
+    }
+    public static void SetProperty(String key, String Value) throws IOException {
+        Properties prop = new Properties();
+        String path = System.getProperty("user.dir") + "/src/test/resources/testDataFiles";
+        File baseFileLocation = new File(path);
+
+        for (File file : baseFileLocation.listFiles()) {
+            if (file.getName().endsWith(".properties")) {
+                try {
+                    FileOutputStream outputFile = new FileOutputStream(file);
+                    prop.store(outputFile,"File Updated");
+                    prop.setProperty(key, Value);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.err.println("Error : " + e);
+                }
+            }
+        }
+    }
+
     /**
      * This Method NonStatic Method Based on Your requirement use it
+     *
      * @param key
      * @return
      */
@@ -89,7 +130,6 @@ public class PropertyFilesLoader {
         }
         return prop.getProperty(key);
     }
-
 
 
 }
