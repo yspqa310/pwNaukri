@@ -1,6 +1,7 @@
 package StepDefinition;
 
 import io.cucumber.java.en.*;
+import org.testng.Assert;
 import utilities.genericMethods;
 
 import java.io.IOException;
@@ -13,6 +14,6 @@ public class LoginStepDef extends genericMethods {
 
     @And("click on logout")
     public void logout() {
-
+        Assert.fail("Intentionally failig");
     }
 }

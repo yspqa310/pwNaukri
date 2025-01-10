@@ -11,19 +11,26 @@ public class myBrowser extends PropertyFilesLoader {
 
     public static Page InitiatingBrowser() throws IOException {
         String browserName = GetProperty("browser");
+        boolean headless;
         pw = Playwright.create();
+        if(GetProperty("HeadLess").equalsIgnoreCase("true")){
+            headless = true;
+        }else{
+            headless = false;
+        }
+
         switch (browserName.toLowerCase()) {
             case "chrome":
-                browser = pw.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setChannel(browserName));
+                browser = pw.chromium().launch(new BrowserType.LaunchOptions().setHeadless(headless).setChannel(browserName));
                 break;
             case "msedge":
-                browser = pw.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setChannel(browserName));
+                browser = pw.chromium().launch(new BrowserType.LaunchOptions().setHeadless(headless).setChannel(browserName));
                 break;
             case "firefox":
-                browser = pw.firefox().launch(new BrowserType.LaunchOptions().setHeadless(false));
+                browser = pw.firefox().launch(new BrowserType.LaunchOptions().setHeadless(headless));
                 break;
             case "webkit":
-                browser = pw.webkit().launch(new BrowserType.LaunchOptions().setHeadless(false));
+                browser = pw.webkit().launch(new BrowserType.LaunchOptions().setHeadless(headless));
                 break;
         }
         if (browser != null) {
