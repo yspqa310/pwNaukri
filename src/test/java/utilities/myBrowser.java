@@ -2,7 +2,9 @@ package utilities;
 
 import com.microsoft.playwright.*;
 
+import java.awt.*;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 public class myBrowser extends PropertyFilesLoader {
     static Page page = null;
@@ -13,9 +15,9 @@ public class myBrowser extends PropertyFilesLoader {
         String browserName = GetProperty("browser");
         boolean headless;
         pw = Playwright.create();
-        if(GetProperty("HeadLess").equalsIgnoreCase("true")){
+        if (GetProperty("HeadLess").equalsIgnoreCase("true")) {
             headless = true;
-        }else{
+        } else {
             headless = false;
         }
 
@@ -34,7 +36,13 @@ public class myBrowser extends PropertyFilesLoader {
                 break;
         }
         if (browser != null) {
-            BrowserContext bc = browser.newContext();
+            Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
+            int height = (int) screensize.getHeight();
+            int width = (int) screensize.getWidth();
+            BrowserContext bc = browser.newContext(new Browser.NewContextOptions()
+                    .setViewportSize(width, height)
+                    .setRecordVideoDir(Paths.get("ExecutionVideo/"))
+                    .setRecordVideoSize(width,height));
             page = bc.newPage();
         }
         return page;

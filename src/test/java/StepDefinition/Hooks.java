@@ -1,18 +1,12 @@
 package StepDefinition;
 
 import com.microsoft.playwright.Page;
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import io.cucumber.java.*;
 import utilities.*;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Date;
-
-import static utilities.myBrowser.*;
+import java.util.Random;
 
 public class Hooks extends genericMethods {
     static String url = "";
@@ -25,6 +19,14 @@ public class Hooks extends genericMethods {
     @After
     public static void after(Scenario scenario) throws IOException {
         closeBrowser(scenario);
+    }
+    @BeforeStep
+    public static void beforeStep(Scenario scenario){
+        afterEveryStep(scenario);
+    }
+    @AfterStep
+    public static void afterStep(Scenario scenario){
+        afterEveryStep(scenario);
     }
     public static void launchURL() throws IOException {
         InitiatingBrowser();
@@ -44,8 +46,6 @@ public class Hooks extends genericMethods {
     }
 
     public static void closeBrowser(Scenario scenario) throws IOException {
-        Date date = new Date();
-
         try {
             if (scenario.isFailed()) {
                 final byte[] screenshot = getPage().screenshot(new Page.ScreenshotOptions().setPath(Paths.get("./reports/ScreenShots/"+ scenario.getName() +".png")).setFullPage(true));
@@ -61,4 +61,19 @@ public class Hooks extends genericMethods {
         getPlaywright().close();
     }
 
+    public static void afterEveryStep(Scenario  scenario){
+        try {
+            final byte[] screenshot = getPage().screenshot(new Page.ScreenshotOptions().setPath(Paths.get("./reports/ScreenShots/"+ scenario.getName() +".png")).setFullPage(true));
+            scenario.attach(screenshot, "failed" + scenario.getLine() +RandomNum()+ "/png", scenario.getLine().toString());
+            writeLogInfo("Successfully Captured screenShot for  " + scenario.getName());
+        } catch (Exception pasha) {
+            writeLogInfo("Facing issue Capturing ScreenShot : " + pasha);
+            System.err.println("Facing issue while capturing ScreenShot : " + pasha);
+        }
+    }
+public static String RandomNum(){
+    Random r = new Random();
+  int num =r.nextInt(99999);
+  return Integer.toString(num);
+}
 }
