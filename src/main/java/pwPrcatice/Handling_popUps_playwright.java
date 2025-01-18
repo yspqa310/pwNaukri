@@ -17,6 +17,7 @@ public class Handling_popUps_playwright extends CSSRelativeLocators_basedLayout 
         Locator messege = page.locator("#result");
 
 
+
         for (int i = 0; i < alerts.count(); i++) {
             alerts.nth(i).click();
             System.out.println(messege.textContent());

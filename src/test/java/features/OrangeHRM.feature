@@ -4,6 +4,7 @@ Feature: verify OrangeHRM login with playwright
   Scenario Outline: verify OrangeHRM login functionality
     Given user is on the Login page
     And user login with "<username>" and "<password>"
+    Then user click on logout
     Examples:
       | username | password |
       | Admin    | admin123 |

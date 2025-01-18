@@ -14,20 +14,22 @@ public class Hooks extends genericMethods {
     @Before
     public static void before() throws IOException {
         launchURL();
+        writeLogInfo("Successfully launched the browser and url");
     }
 
     @After
     public static void after(Scenario scenario) throws IOException {
         closeBrowser(scenario);
+        writeLogInfo("Successfully closed browser");
     }
-    @BeforeStep
-    public static void beforeStep(Scenario scenario){
-        afterEveryStep(scenario);
-    }
-    @AfterStep
-    public static void afterStep(Scenario scenario){
-        afterEveryStep(scenario);
-    }
+//    @BeforeStep
+//    public static void beforeStep(Scenario scenario){
+//        afterEveryStep(scenario);
+//    }
+//    @AfterStep
+//    public static void afterStep(Scenario scenario){
+//        afterEveryStep(scenario);
+//    }
     public static void launchURL() throws IOException {
         InitiatingBrowser();
         Page page = getPage();
@@ -63,7 +65,7 @@ public class Hooks extends genericMethods {
 
     public static void afterEveryStep(Scenario  scenario){
         try {
-            final byte[] screenshot = getPage().screenshot(new Page.ScreenshotOptions().setPath(Paths.get("./reports/ScreenShots/"+ scenario.getName() +".png")).setFullPage(true));
+            final byte[] screenshot = getPage().screenshot(new Page.ScreenshotOptions().setPath(Paths.get("./reports/ScreenShots/"+ scenario.getName() +RandomNum()+".png")).setFullPage(true));
             scenario.attach(screenshot, "failed" + scenario.getLine() +RandomNum()+ "/png", scenario.getLine().toString());
             writeLogInfo("Successfully Captured screenShot for  " + scenario.getName());
         } catch (Exception pasha) {

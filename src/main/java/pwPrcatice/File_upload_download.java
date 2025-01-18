@@ -19,7 +19,6 @@ public class File_upload_download extends CSSRelativeLocators_basedLayout {
                 Paths.get("imageupload.png"),
                 Paths.get("imageupload.png")
         });
-
         closebrowser();
     }
 }
