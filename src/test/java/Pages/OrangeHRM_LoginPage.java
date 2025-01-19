@@ -18,6 +18,7 @@ public class OrangeHRM_LoginPage extends genericMethods {
     }
 
     public void enterUserName(String userName) {
+        waitForPagefullyLoaded();
         enterTextByLocator(userNameTxtBox, userName);
     }
 

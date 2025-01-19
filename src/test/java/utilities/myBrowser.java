@@ -10,6 +10,7 @@ public class myBrowser extends PropertyFilesLoader {
     static Page page = null;
     static Playwright pw = null;
     static Browser browser = null;
+    static BrowserContext bc = null;
 
     public static Page InitiatingBrowser() throws IOException {
         String browserName = GetProperty("browser");
@@ -39,10 +40,10 @@ public class myBrowser extends PropertyFilesLoader {
             Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
             int height = (int) screensize.getHeight();
             int width = (int) screensize.getWidth();
-            BrowserContext bc = browser.newContext(new Browser.NewContextOptions()
+            bc = browser.newContext(new Browser.NewContextOptions()
                     .setViewportSize(width, height)
                     .setRecordVideoDir(Paths.get("ExecutionVideo/"))
-                    .setRecordVideoSize(width,height));
+                    .setRecordVideoSize(width, height));
             page = bc.newPage();
         }
         return page;
@@ -58,5 +59,8 @@ public class myBrowser extends PropertyFilesLoader {
 
     public static synchronized Page getPage() {
         return page;
+    }
+    public static synchronized BrowserContext getContext() {
+        return bc;
     }
 }

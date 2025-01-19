@@ -20,6 +20,9 @@ import java.util.List;
 public class genericMethods extends myBrowser {
     static Page page;
     public static Logger LOGGER = Logger.getLogger(genericMethods.class);
+    static Page focusedPage;
+    static String parentWindowTitle;
+    static Page NEWPAGE;
 
     //    below methods are for the Logging purpose
 
@@ -116,11 +119,21 @@ public class genericMethods extends myBrowser {
         locator.click();
     }
 
+    public void click(Page page, String selector) {
+        page.waitForLoadState();
+        page.click(selector);
+    }
+
+    public void click(Page page, Locator locator) {
+        page.waitForLoadState();
+        locator.click();
+    }
+
     public static String getText(Locator locator) {
         return locator.textContent();
     }
 
-    public static void printAllTextvalues(Locator locatorr) {
+    public static void getAllTextvalues(Locator locatorr) {
         List<String> list = locatorr.allTextContents();
         locatorr.allInnerTexts();
         writeLogInfo("Below are the dropdown options");
@@ -570,5 +583,72 @@ public class genericMethods extends myBrowser {
     public static boolean isDisabled(Locator locator) {
         waitForPagefullyLoaded();
         return locator.isDisabled();
+    }
+
+    //windows Handling
+
+    public static Page switchToPage(Locator locator) {
+        NEWPAGE = Page().waitForPopup(() -> {
+            locator.click();
+        });
+        NEWPAGE.waitForLoadState();
+        writeLogInfo("opened new window and titile of the window is :" + NEWPAGE.title());
+        return NEWPAGE;
+    }
+    public static Page switchToPage(String selector) {
+        NEWPAGE = Page().waitForPopup(() -> {
+            Page().click(selector);
+        });
+        NEWPAGE.waitForLoadState();
+        writeLogInfo("opened new window and titile of the window is :" + NEWPAGE.title());
+        return NEWPAGE;
+    }
+
+    public static void closeWindow(Page page) {
+        writeLogInfo("Closed the window, whose title is : " + page.title());
+        page.close();
+    }
+
+    public static Page switchToWindowByTitle(Locator locator, String windowTitle) {
+        switchToPage(locator);
+        List<Page> pages = getContext().pages();
+        for (int i = 0; i < pages.stream().count(); i++) {
+            if ((pages.get(i).title().trim()).equalsIgnoreCase(windowTitle.trim())) {
+                focusedPage = pages.get(i);
+                writeLogInfo("now the window with the title : " + focusedPage.title());
+                break;
+            }
+        }
+        return focusedPage;
+    }
+    public static Page switchToWindowByTitle(String windowTitle) {
+        Page().click("//html");
+        List<Page> pages = getContext().pages();
+        for (int i = 0; i < pages.stream().count(); i++) {
+            if ((pages.get(i).title().trim()).equalsIgnoreCase(windowTitle.trim())) {
+                focusedPage = pages.get(i);
+                writeLogInfo("now the window with the title : " + focusedPage.title());
+                break;
+            }
+        }
+        return focusedPage;
+    }
+
+    public static Page switchToWindowByTitle(String selector, String windowTitle) {
+        switchToPage(selector);
+        List<Page> pages = getContext().pages();
+        for (int i = 0; i < pages.stream().count(); i++) {
+            if ((pages.get(i).title().trim()).equalsIgnoreCase(windowTitle.trim())) {
+                focusedPage = pages.get(i);
+                writeLogInfo("now the window with the title : " + focusedPage.title());
+                break;
+            }
+        }
+        return focusedPage;
+    }
+
+    public static String getParentWindowTitle() {
+        parentWindowTitle = Page().title();
+        return parentWindowTitle;
     }
 }

@@ -9,7 +9,6 @@ public class OrangeHRM_HomePage extends genericMethods {
     Locator logOutBtn = Page().locator("'Logout'");
     public void clickLogOut() {
         click(profileButton);
-        enterTextInsideByFrameLocator("",profileButton,"value");
         click(logOutBtn);
     }
 }

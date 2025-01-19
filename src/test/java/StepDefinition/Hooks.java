@@ -19,8 +19,8 @@ public class Hooks extends genericMethods {
 
     @After
     public static void after(Scenario scenario) throws IOException {
-        closeBrowser(scenario);
-        writeLogInfo("Successfully closed browser");
+//        closeBrowser(scenario);
+//        writeLogInfo("Successfully closed browser");
     }
 //    @BeforeStep
 //    public static void beforeStep(Scenario scenario){
@@ -59,6 +59,7 @@ public class Hooks extends genericMethods {
             System.err.println("Facing issue while capturing ScreenShot : " + pasha);
         }
         getPage().close();
+        getContext().close();
         getBrowser().close();
         getPlaywright().close();
     }

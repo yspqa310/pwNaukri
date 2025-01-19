@@ -1,5 +1,6 @@
 package StepDefinition;
 
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
 import io.cucumber.java.en.*;
@@ -27,5 +28,14 @@ public class OrangeHRM_LoginSteps extends OrangeHRM_LoginPage {
     public void userLogout() {
         hm.clickLogOut();
         writeLogInfo("User clicked on Logout");
+    }
+
+    @And("window open close")
+    public void windowOpenClose() {
+        Locator locator = Page().locator("'OrangeHRM, Inc'");
+        Page newPage =switchToWindowByTitle(locator,"Human Resources Management Software | OrangeHRM");
+        Locator locator1 = newPage.locator("(//button[contains(text(),'Book')])[2]");
+        click(newPage,locator1);
+        switchToWindowByTitle("OrangeHRM");
     }
 }
