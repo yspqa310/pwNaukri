@@ -19,17 +19,10 @@ public class Hooks extends genericMethods {
 
     @After
     public static void after(Scenario scenario) throws IOException {
-//        closeBrowser(scenario);
-//        writeLogInfo("Successfully closed browser");
+        closeBrowser(scenario);
+        writeLogInfo("Successfully closed browser");
     }
-//    @BeforeStep
-//    public static void beforeStep(Scenario scenario){
-//        afterEveryStep(scenario);
-//    }
-//    @AfterStep
-//    public static void afterStep(Scenario scenario){
-//        afterEveryStep(scenario);
-//    }
+
     public static void launchURL() throws IOException {
         InitiatingBrowser();
         Page page = getPage();
@@ -50,7 +43,7 @@ public class Hooks extends genericMethods {
     public static void closeBrowser(Scenario scenario) throws IOException {
         try {
             if (scenario.isFailed()) {
-                final byte[] screenshot = getPage().screenshot(new Page.ScreenshotOptions().setPath(Paths.get("./reports/ScreenShots/"+ scenario.getName() +".png")).setFullPage(true));
+                final byte[] screenshot = getPage().screenshot(new Page.ScreenshotOptions().setPath(Paths.get("./reports/ScreenShots/" + scenario.getName() + ".png")).setFullPage(true));
                 scenario.attach(screenshot, "failed" + scenario.getName() + "/png", scenario.getName());
                 writeLogInfo("Successfully Captured screenShot for  " + scenario.getName());
             }
@@ -64,19 +57,20 @@ public class Hooks extends genericMethods {
         getPlaywright().close();
     }
 
-    public static void afterEveryStep(Scenario  scenario){
+    public static void afterEveryStep(Scenario scenario) {
         try {
-            final byte[] screenshot = getPage().screenshot(new Page.ScreenshotOptions().setPath(Paths.get("./reports/ScreenShots/"+ scenario.getName() +RandomNum()+".png")).setFullPage(true));
-            scenario.attach(screenshot, "failed" + scenario.getLine() +RandomNum()+ "/png", scenario.getLine().toString());
+            final byte[] screenshot = getPage().screenshot(new Page.ScreenshotOptions().setPath(Paths.get("./reports/ScreenShots/" + scenario.getName() + RandomNum() + ".png")).setFullPage(true));
+            scenario.attach(screenshot, "failed" + scenario.getLine() + RandomNum() + "/png", scenario.getLine().toString());
             writeLogInfo("Successfully Captured screenShot for  " + scenario.getName());
         } catch (Exception pasha) {
             writeLogInfo("Facing issue Capturing ScreenShot : " + pasha);
             System.err.println("Facing issue while capturing ScreenShot : " + pasha);
         }
     }
-public static String RandomNum(){
-    Random r = new Random();
-  int num =r.nextInt(99999);
-  return Integer.toString(num);
-}
+
+    public static String RandomNum() {
+        Random r = new Random();
+        int num = r.nextInt(99999);
+        return Integer.toString(num);
+    }
 }
