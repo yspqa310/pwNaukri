@@ -111,8 +111,9 @@ public class genericMethods extends myBrowser {
      *
      * @param locator
      */
-    public void click(Locator locator) {
+    public void click(Locator locator) throws InterruptedException {
         waitForPagefullyLoaded();
+        Thread.sleep(5000);
         locator.click();
     }
     /**
@@ -170,7 +171,7 @@ public class genericMethods extends myBrowser {
      * @param locator
      * @param value
      */
-    public void enterTextByLocator(Locator locator, String value) {
+    public static void enterTextByLocator(Locator locator, String value) {
         waitForPagefullyLoaded();
         locator.highlight();
         locator.fill(value);
