@@ -10,6 +10,7 @@ public class File_upload_download extends CSSRelativeLocators_basedLayout {
 
 //        uploading file
         page.setInputFiles("#filesToUpload", Paths.get("imageupload.png"));
+
         //detaching file
         page.setInputFiles("#filesToUpload", new Path[0]);
 
