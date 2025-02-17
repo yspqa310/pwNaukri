@@ -128,6 +128,9 @@ public class genericMethods extends myBrowser {
         page.waitForLoadState();
         locator.click();
     }
+    public void clickOnBlank() {
+      Page().click("//html");
+    }
 
     public static String getText(Locator locator) {
         return locator.textContent();
