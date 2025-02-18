@@ -12,11 +12,9 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
-public class apiPracticePostWithPOJO {
+public class apiPracticePUTWithPOJO {
     Playwright pw;
     APIRequest req;
     APIRequestContext reqContext;
@@ -33,13 +31,17 @@ public class apiPracticePostWithPOJO {
         pw.close();
     }
 
+    //1).Post
+    //2)PUT
+    // 3).Get
     @Test
-    public void createUserPost() throws IOException {
+    public void updateUserPUT() throws IOException {
         String AccessToken = "23411dafd4cd71bc33dd7f692921df4119747b53876170af99fc9f5ef2b61714";
 
         //calling POJO Class Object to pass data
-        userPOJO user = new userPOJO("Lathif", "lathif@4mail", "male", "active");
+        userPOJO user = new userPOJO("Shaik11", "shaik11@mail", "female", "inactive");
 
+        //1).Post
         APIResponse response = reqContext.post("https://gorest.co.in/public/v2/users",
                 RequestOptions.create()
                         .setHeader("Content-Type", "application/json")
@@ -51,19 +53,31 @@ public class apiPracticePostWithPOJO {
 
         //printing response json in single line
         String ResponseText = response.text();
-        System.out.println(ResponseText);
-
         ObjectMapper mapper = new ObjectMapper();
-        //storing response into the Created POJO class (Deserialization)
         userPOJO actUser = mapper.readValue(ResponseText, userPOJO.class);
-
+        String userid = actUser.getId();
         //using response and converting into Json to print it as as pretty string
         JsonNode responseJson = mapper.readTree(response.body());
         String responseJsonText = responseJson.toPrettyString();
         System.out.println(responseJsonText);
 
-        //asserting with the actual(Json-->deserialized pojo) with the expected(created POJO)
-        Assert.assertEquals(actUser.getGender(), user.getGender());
+        System.out.println("************************************ Put   request    ***********************************************");
 
+        user.setGender("male");
+        user.setEmail("ysp@34mail.com");
+        APIResponse putResponse = req.newContext().put("https://gorest.co.in/public/v2/users/" + userid,
+                RequestOptions.create()
+                        .setHeader("Content-Type", "application/json")
+                        .setHeader("Authorization", "Bearer " + AccessToken)
+                        .setData(user));
+
+        System.out.println(putResponse.status() + "\n" + "  <--code status :put : status text--->  " + putResponse.statusText());
+        userPOJO putUser = mapper.readValue(putResponse.text(), userPOJO.class);
+        Assert.assertEquals(putUser.getId(), userid);
+        System.out.println(putUser.getId());
+        Assert.assertEquals(putUser.getGender(), user.getGender());
+        System.out.println(putUser.getGender());
+        Assert.assertEquals(putUser.getEmail(), user.getEmail());
+        System.out.println(putUser.getEmail());
     }
 }
