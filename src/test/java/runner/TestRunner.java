@@ -5,9 +5,9 @@ import io.cucumber.testng.CucumberOptions;
 
 
 @CucumberOptions(
-        features = "./src/test/java/features"
+        features = "./src/test/java/features/naukri"
         , glue = {"StepDefinition"},
-        tags = "@update",
+        tags = "@nau",
         plugin = {"pretty", "html:target/cucumber-reports/index.html",
                 "json:target/cucumber-reports/CucumberTestReport.json",
                 "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"

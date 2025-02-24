@@ -4,11 +4,14 @@ import com.microsoft.playwright.Frame;
 import com.microsoft.playwright.FrameLocator;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.assertions.LocatorAssertions;
+import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.MouseButton;
+import com.microsoft.playwright.options.WaitUntilState;
+import io.cucumber.java.en_old.Ac;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
-import  static com.microsoft.playwright.assertions.PlaywrightAssertions.*;
+
+import java.awt.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -111,9 +114,8 @@ public class genericMethods extends myBrowser {
      *
      * @param locator
      */
-    public void click(Locator locator) throws InterruptedException {
+    public void click(Locator locator) {
         waitForPagefullyLoaded();
-        Thread.sleep(5000);
         locator.click();
     }
     /**
@@ -134,6 +136,10 @@ public class genericMethods extends myBrowser {
         page.waitForLoadState();
         locator.click();
     }
+    public void clickOnBlank() {
+      Page().click("//html");
+    }
+
     /**
      * Method will get the text or  text content of the element
      * @return text value of the Locator(Element)
@@ -150,7 +156,7 @@ public class genericMethods extends myBrowser {
     public static void getAllTextvalues(Locator locatorr) {
         List<String> list = locatorr.allTextContents();
         writeLogInfo("Below are the dropdown options");
-        list.forEach(list1 -> System.out.println(list1));
+        list.forEach(list1 -> writeLogInfo(list1));
     }
 
     /**
