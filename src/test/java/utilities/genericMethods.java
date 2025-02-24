@@ -10,8 +10,12 @@ import com.microsoft.playwright.options.WaitUntilState;
 import io.cucumber.java.en_old.Ac;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 
+import javax.tools.Tool;
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -128,8 +132,9 @@ public class genericMethods extends myBrowser {
         page.waitForLoadState();
         locator.click();
     }
+
     public void clickOnBlank() {
-      Page().click("//html");
+        Page().click("//html");
     }
 
     public static String getText(Locator locator) {
@@ -598,6 +603,7 @@ public class genericMethods extends myBrowser {
         writeLogInfo("opened new window and titile of the window is :" + NEWPAGE.title());
         return NEWPAGE;
     }
+
     public static Page switchToPage(String selector) {
         NEWPAGE = Page().waitForPopup(() -> {
             Page().click(selector);
@@ -624,6 +630,7 @@ public class genericMethods extends myBrowser {
         }
         return focusedPage;
     }
+
     public static Page switchToWindowByTitle(String windowTitle) {
         Page().click("//html");
         List<Page> pages = getContext().pages();
@@ -653,5 +660,28 @@ public class genericMethods extends myBrowser {
     public static String getParentWindowTitle() {
         parentWindowTitle = Page().title();
         return parentWindowTitle;
+    }
+
+    public static void uploadFile(String Filename) throws AWTException, InterruptedException {
+        String path = System.getProperty("user.dir") + "\\src\\test\\resources\\" + Filename;
+        setClipboardData(path);
+        Robot robot = null;
+        robot = new Robot();
+        robot.delay(3000);
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+        robot.delay(2000);
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_V);
+        robot.delay(3000);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+    }
+
+    public static void setClipboardData(String string) {
+        StringSelection stringSelection = new StringSelection(string);
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
     }
 }
