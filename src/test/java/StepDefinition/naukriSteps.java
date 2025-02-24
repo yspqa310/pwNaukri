@@ -15,7 +15,7 @@ public class naukriSteps extends naukriPO {
 
     @And("user updates skill set")
     public void userUpdateSkill() throws InterruptedException {
-        updateSkillSet(100);
+        updateSkillSet(2);
     }
 
     @And("user updates resume")
