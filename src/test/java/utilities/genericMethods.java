@@ -21,6 +21,8 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
 
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+
 public class genericMethods extends myBrowser {
     static Page page;
     public static Logger LOGGER = Logger.getLogger(genericMethods.class);
