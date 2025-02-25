@@ -3,6 +3,7 @@ package Pages.naukri;
 import com.microsoft.playwright.*;
 import utilities.genericMethods;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class naukriPO extends genericMethods {
@@ -19,18 +20,7 @@ public class naukriPO extends genericMethods {
     Locator btnProfileImage = Page().locator("//img[@alt='naukri user profile img']");
     Locator btnLogout = Page().locator("//a[.='Logout']");
 
-    public void userLogin() throws IOException {
-        String uname = GetProperty("username");
-        String pwd = GetProperty("password");
-        enterTextByLocator(txtBxUserName, uname);
-        enterTextByLocator(txtBxPassWord, pwd);
-        click(btnLogin);
-        waitForPagefullyLoaded();
-    }
-
     public void updateSkillSet(int maxAttempts) throws InterruptedException {
-        click(btnViewProfile);
-        waitForcefully(5000);
         boolean flag;
         int i;
         for (i = 0; i <= maxAttempts; i++) {
@@ -57,9 +47,60 @@ public class naukriPO extends genericMethods {
         writeLogError("Profile is got updated " + maxAttempts + " times today");
     }
 
+
+    //Locators for update cv
+    Locator btnUpdateResume = Page().locator("//input[@value='Update resume']");
+    Locator btnDltResume = Page().locator("//i[.='deleteOneTheme']");
+    Locator btnDlt = Page().locator("(//div[@class='action right-align']//button[.='Delete'])[2]");
+    Locator btnCmpltProfile = Page().locator("//a[.='Complete profile']");
+    Locator btnUpldProfile = Page().locator("//span[.='Upload resume']");
+
+    public void deleteResume() throws InterruptedException {
+        waitForPagefullyLoaded();
+        click(btnDltResume);
+        click(btnDlt);
+        writeLogInfo("Resume dettached successfully");
+        waitForcefully(3000);
+    }
+
+    public void uploadResume() throws InterruptedException, AWTException {
+        click(btnCmpltProfile);
+        click(btnUpldProfile);
+        uploadFile("Resume.pdf");
+        writeLogInfo("uploaded resume successfully");
+    }
+
+
+    public void updateResume() throws InterruptedException, AWTException {
+        click(btnUpdateResume);
+        uploadFile("Resume.pdf");
+        waitForcefully(10000);
+    }
+
     public void userLogouts() {
         waitForPagefullyLoaded();
         click(btnProfileImage);
         click(btnLogout);
+    }
+
+    public void userLogin() throws InterruptedException, IOException, AWTException {
+        boolean viewPrflVisible;
+        String uname = GetProperty("username");
+        String pwd = GetProperty("password");
+        enterTextByLocator(txtBxUserName, uname);
+        enterTextByLocator(txtBxPassWord, pwd);
+        click(btnLogin);
+        waitForcefully(2000);
+        try {
+            viewPrflVisible = btnViewProfile.isVisible();
+        } catch (PlaywrightException e) {
+            viewPrflVisible = false;
+        }
+        if (viewPrflVisible) {
+            click(btnViewProfile);
+            waitForcefully(5000);
+        } else {
+            uploadResume();
+        }
     }
 }

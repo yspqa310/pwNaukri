@@ -10,12 +10,18 @@ import com.microsoft.playwright.options.WaitUntilState;
 import io.cucumber.java.en_old.Ac;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 
+import javax.tools.Tool;
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
+
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class genericMethods extends myBrowser {
     static Page page;
@@ -118,27 +124,44 @@ public class genericMethods extends myBrowser {
         waitForPagefullyLoaded();
         locator.click();
     }
-
+    /**
+     * Method will click on the element of your selector in the specified page
+     * @param page
+     * @param selector
+     */
     public void click(Page page, String selector) {
         page.waitForLoadState();
         page.click(selector);
     }
-
+    /**
+     * Method will click on the element of your locator in the specified page
+     * @param page
+     * @param locator
+     */
     public void click(Page page, Locator locator) {
         page.waitForLoadState();
         locator.click();
     }
+
     public void clickOnBlank() {
-      Page().click("//html");
+        Page().click("//html");
     }
 
+    /**
+     * Method will get the text or  text content of the element
+     * @return text value of the Locator(Element)
+     * @param locator
+     */
     public static String getText(Locator locator) {
         return locator.textContent();
     }
-
+    /**
+     * Method will get the all the text values or  all text  content of the Locator matching elements
+     * @return all text values of the Locator mateched Elements
+     * @param locatorr
+     */
     public static void getAllTextvalues(Locator locatorr) {
         List<String> list = locatorr.allTextContents();
-        locatorr.allInnerTexts();
         writeLogInfo("Below are the dropdown options");
         list.forEach(list1 -> writeLogInfo(list1));
     }
@@ -161,7 +184,7 @@ public class genericMethods extends myBrowser {
      * @param locator
      * @param value
      */
-    public void enterTextByLocator(Locator locator, String value) {
+    public static void enterTextByLocator(Locator locator, String value) {
         waitForPagefullyLoaded();
         locator.highlight();
         locator.fill(value);
@@ -208,7 +231,6 @@ public class genericMethods extends myBrowser {
     public void check(Locator locator) {
         locator.check();
     }
-
 
     //Handling Frames
 
@@ -556,10 +578,19 @@ public class genericMethods extends myBrowser {
 
         }
     }
-
+public static void assertThatContainsText(Locator locator,String expectedValue){
+        assertThat(locator).containsText(expectedValue);
+}
+    public static void assertThatHasText(Locator locator,String expectedValue){
+        assertThat(locator).hasText(expectedValue);
+    }
+    public static void assertThatIsEnabled(Locator locator,String expectedValue){
+        assertThat(locator).isEnabled();
+    }
     public static void assertEqualsIgnoreCase(String Actual, String Expected) {
         if (Actual.trim().equalsIgnoreCase(Expected.trim())) {
             writeLogError(Actual + "is  matching with the " + Expected + "  value");
+
         } else {
             writeLogInfo(Actual + "is not matching with the " + Expected + "  value");
             throw new AssertionError(Actual + "is not matching with the " + Expected + "  value");
@@ -598,6 +629,7 @@ public class genericMethods extends myBrowser {
         writeLogInfo("opened new window and titile of the window is :" + NEWPAGE.title());
         return NEWPAGE;
     }
+
     public static Page switchToPage(String selector) {
         NEWPAGE = Page().waitForPopup(() -> {
             Page().click(selector);
@@ -624,6 +656,7 @@ public class genericMethods extends myBrowser {
         }
         return focusedPage;
     }
+
     public static Page switchToWindowByTitle(String windowTitle) {
         Page().click("//html");
         List<Page> pages = getContext().pages();
@@ -634,6 +667,7 @@ public class genericMethods extends myBrowser {
                 break;
             }
         }
+        focusedPage.waitForLoadState();
         return focusedPage;
     }
 
@@ -654,4 +688,30 @@ public class genericMethods extends myBrowser {
         parentWindowTitle = Page().title();
         return parentWindowTitle;
     }
+
+    public static void uploadFile(String Filename) throws AWTException, InterruptedException {
+        String path = System.getProperty("user.dir") + "\\src\\test\\resources\\" + Filename;
+        setClipboardData(path);
+        Robot robot = null;
+        robot = new Robot();
+        robot.delay(3000);
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+        robot.delay(2000);
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_V);
+        robot.delay(3000);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+    }
+
+    public static void setClipboardData(String string) {
+        StringSelection stringSelection = new StringSelection(string);
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
+    }
+
+
+
 }
