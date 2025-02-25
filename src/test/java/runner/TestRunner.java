@@ -5,7 +5,7 @@ import io.cucumber.testng.CucumberOptions;
 
 
 @CucumberOptions(
-        features = "./src/test/java/features/naukri"
+        features = "./src/test/java/features"
         , glue = {"StepDefinition"},
         tags = "@naukri",
         plugin = {"pretty", "html:target/cucumber-reports/index.html",
