@@ -51,6 +51,7 @@ public class Hooks extends genericMethods {
             writeLogInfo("Facing issue Capturing ScreenShot : " + pasha);
             System.err.println("Facing issue while capturing ScreenShot : " + pasha);
         }
+        stopTracing(bc);
         getPage().close();
         getContext().close();
         getBrowser().close();
