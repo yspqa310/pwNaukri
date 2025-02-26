@@ -7,11 +7,11 @@ Feature:update naukri profile using multiple functionalities
     And user updates resume
     Then user log outs
 
-#  @delete
-#  Scenario: delete resume
-#    Given user is logs into naukri
-#    And user delete existing resume
-#    Then user log outs
+  @delete
+  Scenario: delete resume
+    Given user is logs into naukri
+    And user delete existing resume
+    Then user log outs
 
   @skill
   Scenario:update one skill

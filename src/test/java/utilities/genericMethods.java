@@ -578,6 +578,15 @@ public class genericMethods extends myBrowser {
 
         }
     }
+    public static void assertEquals(int Actual, int Expected) {
+        if (Actual==Expected) {
+            writeLogError(Actual + "is  matching with the " + Expected + "  value");
+        } else {
+            writeLogInfo(Actual + "is not matching with the " + Expected + "  value");
+            throw new AssertionError(Actual + "is not matching with the " + Expected + "  value");
+
+        }
+    }
 public static void assertThatContainsText(Locator locator,String expectedValue){
         assertThat(locator).containsText(expectedValue);
 }
