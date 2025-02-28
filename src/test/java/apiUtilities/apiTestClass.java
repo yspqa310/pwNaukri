@@ -10,6 +10,7 @@ public class apiTestClass extends apiReusableMethods {
     public void apiget() throws IOException {
         apiGET("https://gorest.co.in/public/v2/users");
     }
+    @Test
     public void apipost() throws IOException {
         apiPost("https://gorest.co.in/public/v2/users","application/json","23411dafd4cd71bc33dd7f692921df4119747b53876170af99fc9f5ef2b61714","");
     }

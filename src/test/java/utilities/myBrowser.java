@@ -5,6 +5,7 @@ import com.microsoft.playwright.*;
 import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class myBrowser extends PropertyFilesLoader {
     static Page page = null;
@@ -25,7 +26,8 @@ public class myBrowser extends PropertyFilesLoader {
 
         switch (browserName.toLowerCase()) {
             case "chrome":
-                browser = pw.chromium().launch(new BrowserType.LaunchOptions().setHeadless(headless).setChannel(browserName));
+                browser = pw.chromium().launch(new BrowserType.LaunchOptions().setHeadless(headless).setChannel(browserName)
+                        .setArgs(List.of("--disable-incognito")));
                 break;
             case "msedge":
                 browser = pw.chromium().launch(new BrowserType.LaunchOptions().setHeadless(headless).setChannel(browserName));
