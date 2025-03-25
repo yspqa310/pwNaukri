@@ -90,7 +90,7 @@ public class naukriPO extends genericMethods {
         enterTextByLocator(txtBxUserName, uname);
         enterTextByLocator(txtBxPassWord, pwd);
         click(btnLogin);
-        waitForcefully(2000);
+        waitForcefully(10000);
         try {
             viewPrflVisible = btnViewProfile.isVisible();
         } catch (PlaywrightException e) {
